@@ -69,7 +69,7 @@ module.exports = {
 			height: 100%;
 			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 			font-size: 14px;
-			color: #3D3229;
+			color: var(--theme-color-text-primary, #3D3229);
 			border: 1px solid #DDD6CA;
 			border-radius: 4px;
 			overflow: hidden;
@@ -159,7 +159,7 @@ module.exports = {
 			border-radius: 4px;
 			font-size: 13px;
 			outline: none;
-			background: #fff;
+			background: var(--theme-color-background-panel, #fff);
 		}
 		.pict-fb-search-input:focus {
 			border-color: #2E7D74;
@@ -216,7 +216,7 @@ module.exports = {
 			cursor: pointer;
 		}
 		.pict-fb-detail-header-cell:hover {
-			color: #3D3229;
+			color: var(--theme-color-text-primary, #3D3229);
 		}
 		.pict-fb-detail-col-name {
 			flex: 1;
@@ -237,10 +237,10 @@ module.exports = {
 			align-items: center;
 			padding: 5px 12px;
 			cursor: pointer;
-			border-bottom: 1px solid #F0ECE4;
+			border-bottom: 1px solid var(--theme-color-background-secondary, #F0ECE4);
 		}
 		.pict-fb-detail-row:hover {
-			background: #F0ECE4;
+			background: var(--theme-color-background-secondary, #F0ECE4);
 		}
 		.pict-fb-detail-row.selected {
 			background: #E0EDE9;
@@ -290,7 +290,7 @@ module.exports = {
 			text-align: center;
 		}
 		.pict-fb-icon-item:hover {
-			background: #F0ECE4;
+			background: var(--theme-color-background-secondary, #F0ECE4);
 		}
 		.pict-fb-icon-item.selected {
 			background: #E0EDE9;
@@ -315,7 +315,7 @@ module.exports = {
 			font-size: 15px;
 			font-weight: 600;
 			margin-bottom: 8px;
-			color: #3D3229;
+			color: var(--theme-color-text-primary, #3D3229);
 		}
 		.pict-fb-fileinfo-table {
 			width: 100%;
@@ -382,7 +382,7 @@ module.exports = {
 			color: #8A7F72;
 		}
 		.pict-fb-breadcrumb-current {
-			color: #3D3229;
+			color: var(--theme-color-text-primary, #3D3229);
 			font-weight: 500;
 			padding: 2px 4px;
 		}
