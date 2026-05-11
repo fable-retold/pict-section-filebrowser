@@ -70,18 +70,18 @@ module.exports = {
 			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 			font-size: 14px;
 			color: var(--theme-color-text-primary, #3D3229);
-			border: 1px solid #DDD6CA;
+			border: 1px solid var(--theme-color-border-default, #DDD6CA);
 			border-radius: 4px;
 			overflow: hidden;
-			background: #FAFAF8;
+			background: var(--theme-color-background-panel, #FAFAF8);
 		}
 
 		.pict-filebrowser-browse-pane {
 			width: 240px;
 			min-width: 180px;
-			border-right: 1px solid #DDD6CA;
+			border-right: 1px solid var(--theme-color-border-default, #DDD6CA);
 			overflow-y: auto;
-			background: #F5F0E8;
+			background: var(--theme-color-background-tertiary, #F5F0E8);
 			flex-shrink: 0;
 		}
 
@@ -99,9 +99,9 @@ module.exports = {
 		}
 
 		.pict-filebrowser-view-pane {
-			border-top: 1px solid #DDD6CA;
+			border-top: 1px solid var(--theme-color-border-default, #DDD6CA);
 			overflow-y: auto;
-			background: #FAFAF8;
+			background: var(--theme-color-background-panel, #FAFAF8);
 		}
 
 		/* --- Browsing: Tree --- */
@@ -117,10 +117,10 @@ module.exports = {
 			white-space: nowrap;
 		}
 		.pict-fb-tree-node:hover {
-			background: #EAE3D8;
+			background: var(--theme-color-background-hover, #EAE3D8);
 		}
 		.pict-fb-tree-node.selected {
-			background: #DDD6CA;
+			background: var(--theme-color-border-default, #DDD6CA);
 			font-weight: 600;
 		}
 		.pict-fb-tree-toggle {
@@ -128,7 +128,7 @@ module.exports = {
 			width: 16px;
 			text-align: center;
 			flex-shrink: 0;
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 			font-size: 10px;
 		}
 		.pict-fb-tree-icon {
@@ -155,14 +155,14 @@ module.exports = {
 			width: 100%;
 			box-sizing: border-box;
 			padding: 6px 10px;
-			border: 1px solid #DDD6CA;
+			border: 1px solid var(--theme-color-border-default, #DDD6CA);
 			border-radius: 4px;
 			font-size: 13px;
 			outline: none;
 			background: var(--theme-color-background-panel, #fff);
 		}
 		.pict-fb-search-input:focus {
-			border-color: #2E7D74;
+			border-color: var(--theme-color-brand-primary, #2E7D74);
 		}
 		.pict-fb-search-results {
 			margin-top: 4px;
@@ -175,7 +175,7 @@ module.exports = {
 			border-radius: 3px;
 		}
 		.pict-fb-search-result:hover {
-			background: #EAE3D8;
+			background: var(--theme-color-background-hover, #EAE3D8);
 		}
 		.pict-fb-search-result-icon {
 			margin-right: 6px;
@@ -187,7 +187,7 @@ module.exports = {
 			white-space: nowrap;
 		}
 		.pict-fb-search-result-path {
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 			font-size: 11px;
 			margin-left: auto;
 			padding-left: 8px;
@@ -204,9 +204,9 @@ module.exports = {
 			font-weight: 600;
 			font-size: 12px;
 			text-transform: uppercase;
-			color: #8A7F72;
-			border-bottom: 1px solid #DDD6CA;
-			background: #F5F0E8;
+			color: var(--theme-color-text-muted, #8A7F72);
+			border-bottom: 1px solid var(--theme-color-border-default, #DDD6CA);
+			background: var(--theme-color-background-tertiary, #F5F0E8);
 			user-select: none;
 		}
 		.pict-fb-detail-header-cell {
@@ -243,7 +243,7 @@ module.exports = {
 			background: var(--theme-color-background-secondary, #F0ECE4);
 		}
 		.pict-fb-detail-row.selected {
-			background: #E0EDE9;
+			background: var(--theme-color-background-selected, #E0EDE9);
 		}
 		.pict-fb-detail-icon {
 			margin-right: 8px;
@@ -262,13 +262,13 @@ module.exports = {
 			text-align: right;
 			flex-shrink: 0;
 			padding-right: 12px;
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 			font-size: 12px;
 		}
 		.pict-fb-detail-modified {
 			width: 150px;
 			flex-shrink: 0;
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 			font-size: 12px;
 		}
 
@@ -293,7 +293,7 @@ module.exports = {
 			background: var(--theme-color-background-secondary, #F0ECE4);
 		}
 		.pict-fb-icon-item.selected {
-			background: #E0EDE9;
+			background: var(--theme-color-background-selected, #E0EDE9);
 		}
 		.pict-fb-icon-graphic {
 			font-size: 36px;
@@ -325,15 +325,15 @@ module.exports = {
 			padding: 3px 0;
 		}
 		.pict-fb-fileinfo-label {
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 			width: 100px;
 			font-weight: 500;
 		}
 		.pict-fb-fileinfo-value {
-			color: #423D37;
+			color: var(--theme-color-text-primary, #423D37);
 		}
 		.pict-fb-fileinfo-none {
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 			font-style: italic;
 		}
 
@@ -353,7 +353,7 @@ module.exports = {
 			box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 		}
 		.pict-fb-image-viewer-none {
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 			font-style: italic;
 		}
 
@@ -363,23 +363,23 @@ module.exports = {
 			align-items: center;
 			padding: 6px 12px;
 			font-size: 13px;
-			background: #F5F0E8;
-			border-bottom: 1px solid #DDD6CA;
+			background: var(--theme-color-background-tertiary, #F5F0E8);
+			border-bottom: 1px solid var(--theme-color-border-default, #DDD6CA);
 			overflow-x: auto;
 			white-space: nowrap;
 		}
 		.pict-fb-breadcrumb-segment {
 			cursor: pointer;
-			color: #2E7D74;
+			color: var(--theme-color-brand-primary, #2E7D74);
 			padding: 2px 4px;
 			border-radius: 3px;
 		}
 		.pict-fb-breadcrumb-segment:hover {
-			background: #EAE3D8;
+			background: var(--theme-color-background-hover, #EAE3D8);
 		}
 		.pict-fb-breadcrumb-separator {
 			margin: 0 2px;
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 		}
 		.pict-fb-breadcrumb-current {
 			color: var(--theme-color-text-primary, #3D3229);
@@ -393,7 +393,7 @@ module.exports = {
 			align-items: center;
 			justify-content: center;
 			padding: 32px;
-			color: #8A7F72;
+			color: var(--theme-color-text-muted, #8A7F72);
 			font-style: italic;
 		}
 	`
