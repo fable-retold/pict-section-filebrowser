@@ -104,6 +104,46 @@ module.exports = {
 			background: var(--theme-color-background-panel, #FAFAF8);
 		}
 
+		.pict-fb-pane-full { flex: 1; min-width: 0; }
+
+		/* --- Layout: list-only (1 pane) ---
+		   The container always renders a browse-pane div (templates can't
+		   conditionally omit it).  In list-only mode we hide the
+		   browse-pane + view-pane entirely so the list takes full width.
+		   Without these rules the 240px browse-pane shows as a blank gap
+		   to the left of the file list. */
+		.pict-fb-layout-list-only { flex-direction: column; }
+		.pict-fb-layout-list-only .pict-filebrowser-browse-pane { display: none; }
+		.pict-fb-layout-list-only .pict-filebrowser-view-pane { display: none; }
+		.pict-fb-layout-list-only .pict-filebrowser-list-pane { border-top: none; }
+
+		/* --- Layout: tree-list (browse + list, side by side) --- */
+		.pict-fb-layout-tree-list { flex-direction: row; }
+		.pict-fb-layout-tree-list .pict-filebrowser-view-pane { display: none; }
+		.pict-fb-layout-tree-list .pict-filebrowser-list-pane { border-top: none; }
+
+		/* --- Layout: list-detail (list on top, info below) --- */
+		.pict-fb-layout-list-detail { flex-direction: column; }
+		.pict-fb-layout-list-detail .pict-filebrowser-browse-pane { display: none; }
+		.pict-fb-layout-list-detail .pict-filebrowser-list-pane { flex: 1; border-top: none; }
+		.pict-fb-layout-list-detail .pict-filebrowser-view-pane { flex: 0 0 auto; max-height: 40%; }
+
+		/* --- Layout: tree-detail (browse + view, side by side) --- */
+		.pict-fb-layout-tree-detail { flex-direction: row; }
+		.pict-fb-layout-tree-detail .pict-filebrowser-list-pane { display: none; }
+		.pict-fb-layout-tree-detail .pict-filebrowser-view-pane { border-top: none; border-left: none; }
+
+		/* --- Layout: browser-detail (browse | list / view) --- */
+		.pict-fb-layout-browser-detail { flex-direction: row; }
+		.pict-fb-layout-browser-detail .pict-filebrowser-main-pane { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+		.pict-fb-layout-browser-detail .pict-filebrowser-list-pane { flex: 1; }
+		.pict-fb-layout-browser-detail .pict-filebrowser-view-pane { flex: 0 0 auto; max-height: 40%; }
+
+		/* --- Layout: browser-columns (browse | list | view as columns) --- */
+		.pict-fb-layout-browser-columns { flex-direction: row; }
+		.pict-fb-layout-browser-columns .pict-filebrowser-list-pane { flex: 1; min-width: 0; border-right: 1px solid var(--theme-color-border-default, #DDD6CA); border-top: none; }
+		.pict-fb-layout-browser-columns .pict-fb-column-view { flex: 1; min-width: 0; border-top: none; border-left: none; overflow-y: auto; }
+
 		/* --- Browsing: Tree --- */
 		.pict-fb-tree {
 			padding: 8px 0;

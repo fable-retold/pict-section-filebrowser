@@ -101,7 +101,40 @@ class PictViewFileBrowser extends libPictView
 	onAfterRender(pRenderable)
 	{
 		this.pict.CSSMap.injectCSS();
+		this._applyLayoutClass();
 		return super.onAfterRender(pRenderable);
+	}
+
+	/**
+	 * Apply the current layout's CSSClass to the .pict-filebrowser div
+	 * so the layout-specific CSS rules in DefaultConfiguration (e.g.
+	 * `.pict-fb-layout-list-only .pict-filebrowser-browse-pane { display:
+	 * none }`) actually take effect.
+	 *
+	 * Without this, the filebrowser falls back to its default flex-row
+	 * shape and the browse-pane shows up as a 240px gap on the left
+	 * regardless of which layout the host configured.
+	 *
+	 * Removes any previously-applied `pict-fb-layout-*` class before
+	 * adding the new one so layout switching at runtime stays clean.
+	 */
+	_applyLayoutClass()
+	{
+		let tmpProvider = this.pict.providers['Pict-FileBrowser-Layout'];
+		if (!tmpProvider || typeof tmpProvider.getCurrentLayout !== 'function') { return; }
+		let tmpLayout = tmpProvider.getCurrentLayout();
+		if (!tmpLayout || typeof tmpLayout.CSSClass !== 'string' || !tmpLayout.CSSClass) { return; }
+
+		let tmpWrap = (typeof document !== 'undefined') ? document.getElementById('Pict-FileBrowser-Wrap') : null;
+		if (!tmpWrap) { return; }
+
+		// Strip any prior pict-fb-layout-* class, add the current one.
+		let tmpClasses = (tmpWrap.className || '').split(/\s+/).filter(function (c)
+		{
+			return c && c.indexOf('pict-fb-layout-') !== 0;
+		});
+		tmpClasses.push(tmpLayout.CSSClass);
+		tmpWrap.className = tmpClasses.join(' ');
 	}
 
 	/**
