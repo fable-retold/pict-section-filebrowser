@@ -245,43 +245,17 @@ class PictFileBrowserListProvider extends libPictProvider
 			return pEntry.Icon;
 		}
 
-		// Use the SVG icon provider if available
+		// Prefer the FB-section's multi-color glyphs if its provider is
+		// registered.  Otherwise fall back to pict-core's monoline
+		// Folder / File icons via pict.icon() \u2014 themable, currentColor,
+		// always available on pict >= 1.0.368.  No inline SVG fallback
+		// needed anymore; emojis are forbidden in UI surfaces.
 		let tmpIconProvider = this.pict.providers['Pict-FileBrowser-Icons'];
 		if (tmpIconProvider)
 		{
 			return tmpIconProvider.getIconForEntry(pEntry, 16);
 		}
-
-		// Fallback to emoji icons when icon provider is not registered
-		if (pEntry.Type === 'folder')
-		{
-			return '\uD83D\uDCC1';
-		}
-
-		let tmpExt = (pEntry.Extension || '').toLowerCase();
-		switch (tmpExt)
-		{
-			case '.jpg': case '.jpeg': case '.png': case '.gif': case '.svg': case '.webp': case '.bmp':
-				return '\uD83D\uDDBC';
-			case '.pdf':
-				return '\uD83D\uDCC4';
-			case '.doc': case '.docx': case '.txt': case '.md': case '.rtf':
-				return '\uD83D\uDCC3';
-			case '.xls': case '.xlsx': case '.csv':
-				return '\uD83D\uDCCA';
-			case '.zip': case '.tar': case '.gz': case '.rar': case '.7z':
-				return '\uD83D\uDCE6';
-			case '.js': case '.ts': case '.py': case '.rb': case '.java': case '.c': case '.cpp': case '.go': case '.rs':
-				return '\uD83D\uDCBB';
-			case '.html': case '.css': case '.json': case '.xml': case '.yaml': case '.yml':
-				return '\uD83C\uDF10';
-			case '.mp3': case '.wav': case '.flac': case '.ogg': case '.aac':
-				return '\uD83C\uDFB5';
-			case '.mp4': case '.avi': case '.mov': case '.mkv': case '.webm':
-				return '\uD83C\uDFA5';
-			default:
-				return '\uD83D\uDCC4';
-		}
+		return this.pict.icon(pEntry.Type === 'folder' ? 'Folder' : 'File');
 	}
 
 	/**

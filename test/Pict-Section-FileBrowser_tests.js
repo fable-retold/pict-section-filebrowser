@@ -845,7 +845,9 @@ suite
 					{
 						Expect(libIconProvider.default_configuration).to.be.an('object');
 						Expect(libIconProvider.default_configuration.ProviderIdentifier).to.equal('Pict-FileBrowser-Icons');
-						Expect(libIconProvider.BuiltInIcons).to.be.an('object');
+						// Post-icon-registry: IconSet (PascalCase names) replaces the
+						// old BuiltInIcons export.  ExtensionMap and Colors unchanged.
+						Expect(libIconProvider.IconSet).to.be.an('object');
 						Expect(libIconProvider.ExtensionMap).to.be.an('object');
 						Expect(libIconProvider.Colors).to.be.an('object');
 						fDone();
@@ -859,41 +861,52 @@ suite
 						var tmpProvider = createProvider(libIconProvider);
 						var tmpNames = tmpProvider.getIconNames();
 						Expect(tmpNames).to.be.an('array');
-						Expect(tmpNames.length).to.be.greaterThan(15);
-						Expect(tmpNames).to.include('folder');
-						Expect(tmpNames).to.include('file');
-						Expect(tmpNames).to.include('file-code');
-						Expect(tmpNames).to.include('file-image');
-						Expect(tmpNames).to.include('file-archive');
-						Expect(tmpNames).to.include('home');
-						Expect(tmpNames).to.include('chevron-right');
-						Expect(tmpNames).to.include('chevron-down');
-						Expect(tmpNames).to.include('search');
+						Expect(tmpNames.length).to.be.greaterThan(10);
+						// FB-specific names are PascalCase, namespaced where they would
+						// clash with pict-core's monoline base set (FileBrowser*) and
+						// unprefixed for file-type-specific glyphs.
+						Expect(tmpNames).to.include('FileBrowserFolder');
+						Expect(tmpNames).to.include('FileBrowserFile');
+						Expect(tmpNames).to.include('FileBrowserHome');
+						Expect(tmpNames).to.include('FileCode');
+						Expect(tmpNames).to.include('FileImage');
+						Expect(tmpNames).to.include('FileArchive');
+						Expect(tmpNames).to.include('FilePdf');
+						Expect(tmpNames).to.include('SortAscending');
+						Expect(tmpNames).to.include('SortDescending');
 						fDone();
 					}
 				);
 				test
 				(
-					'getIcon should return SVG strings for known icons.',
+					'getIcon should return wrapped SVG for known icons (legacy + canonical names).',
 					(fDone) =>
 					{
 						var tmpProvider = createProvider(libIconProvider);
 
+						// Legacy kebab-case name still resolves (via _LegacyNameMap)
 						var tmpFolder = tmpProvider.getIcon('folder', 16);
 						Expect(tmpFolder).to.be.a('string');
 						Expect(tmpFolder).to.contain('<svg');
-						Expect(tmpFolder).to.contain('width="16"');
+						// Sizing moved from svg width/height to font-size on the
+						// .pict-icon wrapper (pict-core convention).
+						Expect(tmpFolder).to.contain('class="pict-icon"');
+						Expect(tmpFolder).to.contain('font-size:16px');
 
-						var tmpCode = tmpProvider.getIcon('file-code', 24);
+						// Canonical PascalCase name resolves too
+						var tmpCode = tmpProvider.getIcon('FileCode', 24);
 						Expect(tmpCode).to.contain('<svg');
-						Expect(tmpCode).to.contain('width="24"');
+						Expect(tmpCode).to.contain('font-size:24px');
 
-						// Non-existent icon returns empty string
-						Expect(tmpProvider.getIcon('nonexistent', 16)).to.equal('');
+						// Non-existent icon returns the registry's question-mark
+						// fallback glyph (pict.icon never returns empty) — still
+						// has an <svg> tag.
+						Expect(tmpProvider.getIcon('nonexistent', 16)).to.contain('<svg');
 
-						// Default size
+						// Default size — no size hint means no inline style.
 						var tmpHome = tmpProvider.getIcon('home');
-						Expect(tmpHome).to.contain('width="16"');
+						Expect(tmpHome).to.contain('<svg');
+						Expect(tmpHome).to.contain('class="pict-icon"');
 
 						fDone();
 					}
@@ -941,13 +954,14 @@ suite
 					(fDone) =>
 					{
 						var tmpProvider = createProvider(libIconProvider);
+						// 'chevron-right' is a legacy name; resolves to pict-core's
+						// ChevronRight (the FB section no longer ships its own).
 						var tmpChevron = tmpProvider.getUIIcon('chevron-right', 10);
 						Expect(tmpChevron).to.contain('<svg');
-						Expect(tmpChevron).to.contain('width="10"');
+						Expect(tmpChevron).to.contain('font-size:10px');
 
-						// Default size
 						var tmpSearch = tmpProvider.getUIIcon('search');
-						Expect(tmpSearch).to.contain('width="16"');
+						Expect(tmpSearch).to.contain('<svg');
 
 						fDone();
 					}
@@ -959,22 +973,26 @@ suite
 					{
 						var tmpProvider = createProvider(libIconProvider);
 
-						// Register a custom icon
-						var tmpResult = tmpProvider.registerIcon('custom-star', (pSize) =>
-						{
-							return '<svg width="' + pSize + '" height="' + pSize + '"><star /></svg>';
-						});
+						// Register a custom icon — modern form takes an SVG string.
+						var tmpResult = tmpProvider.registerIcon('CustomStar',
+							'<svg viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 17,14 19,22 12,18 5,22 7,14 2,9 9,9"/></svg>');
 						Expect(tmpResult).to.be.true;
 
 						// Retrieve it
-						var tmpIcon = tmpProvider.getIcon('custom-star', 20);
-						Expect(tmpIcon).to.contain('<star />');
-						Expect(tmpIcon).to.contain('width="20"');
+						var tmpIcon = tmpProvider.getIcon('CustomStar', 20);
+						Expect(tmpIcon).to.contain('<polygon');
+						Expect(tmpIcon).to.contain('font-size:20px');
+
+						// Legacy function form still accepted — called with size 24
+						// to extract the SVG string at registration time.
+						var tmpFnResult = tmpProvider.registerIcon('LegacyStar',
+							(pSize) => '<svg width="' + pSize + '" height="' + pSize + '"><star /></svg>');
+						Expect(tmpFnResult).to.be.true;
 
 						// Invalid registration
 						Expect(tmpProvider.registerIcon(null, function() {})).to.be.false;
 						Expect(tmpProvider.registerIcon('foo', null)).to.be.false;
-						Expect(tmpProvider.registerIcon('foo', 'not-a-function')).to.be.false;
+						Expect(tmpProvider.registerIcon('foo', 'not-a-svg-string')).to.be.false;
 
 						fDone();
 					}
@@ -1009,17 +1027,19 @@ suite
 						var tmpProvider = createProvider(libIconProvider);
 						var tmpMap = tmpProvider.getExtensionMap();
 						Expect(tmpMap).to.be.an('object');
-						Expect(tmpMap['.js']).to.equal('file-code');
-						Expect(tmpMap['.jpg']).to.equal('file-image');
-						Expect(tmpMap['.zip']).to.equal('file-archive');
-						Expect(tmpMap['.pdf']).to.equal('file-pdf');
-						Expect(tmpMap['.mp3']).to.equal('file-audio');
-						Expect(tmpMap['.mp4']).to.equal('file-video');
-						Expect(tmpMap['.html']).to.equal('file-web');
-						Expect(tmpMap['.json']).to.equal('file-config');
+						// Extension map values are PascalCase canonical icon names
+						// that resolve through the pict.providers.Icon registry.
+						Expect(tmpMap['.js']).to.equal('FileCode');
+						Expect(tmpMap['.jpg']).to.equal('FileImage');
+						Expect(tmpMap['.zip']).to.equal('FileArchive');
+						Expect(tmpMap['.pdf']).to.equal('FilePdf');
+						Expect(tmpMap['.mp3']).to.equal('FileAudio');
+						Expect(tmpMap['.mp4']).to.equal('FileVideo');
+						Expect(tmpMap['.html']).to.equal('FileWeb');
+						Expect(tmpMap['.json']).to.equal('FileConfig');
 
 						// Modifying the copy should not affect the provider
-						tmpMap['.test'] = 'file-test';
+						tmpMap['.test'] = 'FileTest';
 						var tmpMap2 = tmpProvider.getExtensionMap();
 						Expect(tmpMap2['.test']).to.be.undefined;
 
@@ -1028,7 +1048,7 @@ suite
 				);
 				test
 				(
-					'All built-in icons should produce valid SVG at different sizes.',
+					'All built-in icons should produce wrapped SVG at different sizes.',
 					(fDone) =>
 					{
 						var tmpProvider = createProvider(libIconProvider);
@@ -1044,8 +1064,13 @@ suite
 									tmpNames[i] + ' at ' + tmpSizes[j] + 'px should be a string');
 								Expect(tmpSVG).to.contain('<svg',
 									tmpNames[i] + ' at ' + tmpSizes[j] + 'px should contain SVG');
-								Expect(tmpSVG).to.contain('width="' + tmpSizes[j] + '"',
-									tmpNames[i] + ' at ' + tmpSizes[j] + 'px should have correct width');
+								// Sizing flows through `font-size` on the .pict-icon
+								// wrapper (1em x 1em inner SVG) — not via baked-in
+								// width/height attributes on the SVG.
+								Expect(tmpSVG).to.contain('class="pict-icon"',
+									tmpNames[i] + ' at ' + tmpSizes[j] + 'px should be wrapped');
+								Expect(tmpSVG).to.contain('font-size:' + tmpSizes[j] + 'px',
+									tmpNames[i] + ' at ' + tmpSizes[j] + 'px should set wrapper font-size');
 							}
 						}
 

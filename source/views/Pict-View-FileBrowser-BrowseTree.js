@@ -132,21 +132,18 @@ class PictViewFileBrowserBrowseTree extends libPictView
 				tmpChildrenHTML = this.renderTreeLevel(tmpPath, pDepth + 1, pCurrentLocation);
 			}
 
-			// Use SVG icons if the icon provider is available
-		let tmpIconProvider = this.pict.providers['Pict-FileBrowser-Icons'];
-		let tmpFolderIcon = tmpIconProvider ? tmpIconProvider.getIcon('folder', 16) : '\uD83D\uDCC1';
-		let tmpToggleIcon = '';
-		if (tmpHasChildren)
-		{
-			if (tmpIconProvider)
+			// Folder + toggle glyphs flow through pict.providers.Icon.
+			// FB-section installed \u2192 multi-color FileBrowserFolder; not
+			// installed \u2192 pict-core monoline Folder.  Toggle chevrons
+			// always come from pict-core (the FB section dropped its own
+			// chevron variants in favor of the standard set).
+			let tmpHasFBIcons = !!this.pict.providers['Pict-FileBrowser-Icons'];
+			let tmpFolderIcon = this.pict.icon(tmpHasFBIcons ? 'FileBrowserFolder' : 'Folder', { size: 16 });
+			let tmpToggleIcon = '';
+			if (tmpHasChildren)
 			{
-				tmpToggleIcon = tmpIsExpanded ? tmpIconProvider.getIcon('chevron-down', 10) : tmpIconProvider.getIcon('chevron-right', 10);
+				tmpToggleIcon = this.pict.icon(tmpIsExpanded ? 'ChevronDown' : 'ChevronRight', { size: 10 });
 			}
-			else
-			{
-				tmpToggleIcon = tmpIsExpanded ? '\u25BE' : '\u25B8';
-			}
-		}
 
 		let tmpRecord =
 			{

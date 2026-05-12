@@ -142,7 +142,12 @@ class PictViewFileBrowserBrowseSearch extends libPictView
 		for (let i = 0; i < tmpResults.length && i < tmpMaxResults; i++)
 		{
 			let tmpEntry = tmpResults[i];
-			let tmpIcon = tmpListProvider ? tmpListProvider.getEntryIcon(tmpEntry) : '\uD83D\uDCC4';
+			// List-provider does extension-to-icon mapping; fall back to
+			// pict-core's monoline File glyph when the provider isn't
+			// registered (themable, currentColor — no inline SVG bytes).
+			let tmpIcon = tmpListProvider
+				? tmpListProvider.getEntryIcon(tmpEntry)
+				: this.pict.icon('File');
 			let tmpPath = tmpEntry.Path || '';
 
 			let tmpRecord =

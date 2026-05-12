@@ -157,7 +157,7 @@ tmpOrator.startService(
 		tmpFileBrowser.connectRoutes();
 
 		console.log('');
-		console.log('  \uD83D\uDCC1 File Browser');
+		console.log('  Pict File Browser');
 		console.log('  Browsing: ' + tmpResolvedPath);
 		console.log('  Server:   http://localhost:' + _Port + '/filebrowser/');
 		console.log('');

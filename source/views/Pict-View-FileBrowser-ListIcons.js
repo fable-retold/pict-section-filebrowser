@@ -130,11 +130,16 @@ class PictViewFileBrowserListIcons extends libPictView
 		let tmpCurrentLocation = this.getCurrentLocation();
 		let tmpHTML = '';
 
-		// Root segment
+		// Root segment \u2014 FB-themed Home glyph if the section is installed,
+		// otherwise pict-core's monoline Home.  Always themable via
+		// currentColor + theme tokens; never an emoji.
+		let tmpHomeLabel_ListIcons = this.pict.providers['Pict-FileBrowser-Icons']
+			? this.pict.icon('FileBrowserHome', { size: 16 })
+			: this.pict.icon('Home', { size: 16 });
 		tmpHTML += this.pict.parseTemplateByHash(
 			'FileBrowser-Breadcrumb-Segment-Template',
 			{
-				Label: '\uD83C\uDFE0',
+				Label: tmpHomeLabel_ListIcons,
 				ClickHandler: "pict.views['" + this.Hash + "'].navigateToPath('')"
 			});
 
