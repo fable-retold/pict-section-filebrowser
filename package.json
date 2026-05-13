@@ -1,6 +1,6 @@
 {
 	"name": "pict-section-filebrowser",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Pict file browser section - composable browsing, listing, and viewing views for file system navigation",
 	"main": "source/Pict-Section-FileBrowser.js",
 	"bin": {

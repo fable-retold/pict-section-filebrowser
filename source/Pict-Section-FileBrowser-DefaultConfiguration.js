@@ -237,6 +237,32 @@ module.exports = {
 		/* --- Listing: Detail --- */
 		.pict-fb-detail {
 			width: 100%;
+			/* Establish a container so the columns below can hide
+			   responsively based on this element's width — not the
+			   viewport's.  When the file browser lives in a 250px-wide
+			   sidebar, the date column should drop before the name
+			   column starts to ellipsize, regardless of how wide the
+			   surrounding viewport is. */
+			container-type: inline-size;
+			container-name: pict-fb-detail;
+		}
+		/* Narrow: hide the modified-date column (header + cell) first.
+		   Below ~340px there isn't room for both name + size + date with
+		   the name kept readable. */
+		@container pict-fb-detail (max-width: 340px) {
+			.pict-fb-detail-col-modified,
+			.pict-fb-detail-modified {
+				display: none;
+			}
+		}
+		/* Very narrow: also hide the size column so the filename
+		   gets the full row.  Triggered around the typical sidebar
+		   width (200–260px). */
+		@container pict-fb-detail (max-width: 260px) {
+			.pict-fb-detail-col-size,
+			.pict-fb-detail-size {
+				display: none;
+			}
 		}
 		.pict-fb-detail-header {
 			display: flex;
