@@ -23,7 +23,7 @@ const _ViewConfiguration =
 		{
 			"Hash": "FileBrowser-ListIcons-Item-Template",
 			"Template": /*html*/`
-<div class="pict-fb-icon-item{~D:Record.SelectedClass~}" data-index="{~D:Record.Index~}" onclick="{~D:Record.ClickHandler~}" ondblclick="{~D:Record.DblClickHandler~}">
+<div class="pict-fb-icon-item{~D:Record.SelectedClass~}" data-index="{~D:Record.Index~}" onclick="{~P~}.views['{~D:Record.ViewHash~}'].selectEntry({~D:Record.Index~})" ondblclick="{~P~}.views['{~D:Record.ViewHash~}'].openEntry({~D:Record.Index~})">
 	<div class="pict-fb-icon-graphic">{~D:Record.Icon~}</div>
 	<div class="pict-fb-icon-label">{~D:Record.Name~}</div>
 </div>
@@ -112,8 +112,7 @@ class PictViewFileBrowserListIcons extends libPictView
 				Name: tmpEntry.Name,
 				Icon: tmpListProvider.getEntryIcon(tmpEntry),
 				SelectedClass: tmpIsSelected ? ' selected' : '',
-				ClickHandler: "pict.views['" + this.Hash + "'].selectEntry(" + i + ")",
-				DblClickHandler: "pict.views['" + this.Hash + "'].openEntry(" + i + ")"
+				ViewHash: this.Hash
 			};
 
 			tmpHTML += this.pict.parseTemplateByHash('FileBrowser-ListIcons-Item-Template', tmpRecord);
@@ -140,7 +139,8 @@ class PictViewFileBrowserListIcons extends libPictView
 			'FileBrowser-Breadcrumb-Segment-Template',
 			{
 				Label: tmpHomeLabel_ListIcons,
-				ClickHandler: "pict.views['" + this.Hash + "'].navigateToPath('')"
+				Path: '',
+				ViewHash: this.Hash
 			});
 
 		if (tmpCurrentLocation)
@@ -167,7 +167,8 @@ class PictViewFileBrowserListIcons extends libPictView
 						'FileBrowser-Breadcrumb-Segment-Template',
 						{
 							Label: tmpParts[i],
-							ClickHandler: "pict.views['" + this.Hash + "'].navigateToPath('" + tmpPath + "')"
+							Path: tmpPath,
+							ViewHash: this.Hash
 						});
 				}
 			}

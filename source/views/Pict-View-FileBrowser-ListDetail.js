@@ -17,9 +17,9 @@ const _ViewConfiguration =
 <div class="pict-fb-detail" id="Pict-FileBrowser-DetailList">
 	<div class="pict-fb-breadcrumb" id="Pict-FileBrowser-Breadcrumb"></div>
 	<div class="pict-fb-detail-header">
-		<div class="pict-fb-detail-header-cell pict-fb-detail-col-name" onclick="pict.views['{~D:Record.ViewHash~}'].sortBy('Name')">Name</div>
-		<div class="pict-fb-detail-header-cell pict-fb-detail-col-size" onclick="pict.views['{~D:Record.ViewHash~}'].sortBy('Size')">Size</div>
-		<div class="pict-fb-detail-header-cell pict-fb-detail-col-modified" onclick="pict.views['{~D:Record.ViewHash~}'].sortBy('Modified')">Modified</div>
+		<div class="pict-fb-detail-header-cell pict-fb-detail-col-name" onclick="{~P~}.views['{~D:Record.ViewHash~}'].sortBy('Name')">Name</div>
+		<div class="pict-fb-detail-header-cell pict-fb-detail-col-size" onclick="{~P~}.views['{~D:Record.ViewHash~}'].sortBy('Size')">Size</div>
+		<div class="pict-fb-detail-header-cell pict-fb-detail-col-modified" onclick="{~P~}.views['{~D:Record.ViewHash~}'].sortBy('Modified')">Modified</div>
 	</div>
 	<div id="Pict-FileBrowser-DetailRows"></div>
 </div>
@@ -28,7 +28,7 @@ const _ViewConfiguration =
 		{
 			"Hash": "FileBrowser-ListDetail-Row-Template",
 			"Template": /*html*/`
-<div class="pict-fb-detail-row{~D:Record.SelectedClass~}" data-index="{~D:Record.Index~}" onclick="{~D:Record.ClickHandler~}" ondblclick="{~D:Record.DblClickHandler~}">
+<div class="pict-fb-detail-row{~D:Record.SelectedClass~}" data-index="{~D:Record.Index~}" onclick="{~P~}.views['{~D:Record.ViewHash~}'].selectEntry({~D:Record.Index~})" ondblclick="{~P~}.views['{~D:Record.ViewHash~}'].openEntry({~D:Record.Index~})">
 	<span class="pict-fb-detail-icon">{~D:Record.Icon~}</span>
 	<span class="pict-fb-detail-name">{~D:Record.Name~}</span>
 	<span class="pict-fb-detail-size">{~D:Record.SizeFormatted~}</span>
@@ -42,7 +42,7 @@ const _ViewConfiguration =
 		},
 		{
 			"Hash": "FileBrowser-Breadcrumb-Segment-Template",
-			"Template": /*html*/`<span class="pict-fb-breadcrumb-segment" onclick="{~D:Record.ClickHandler~}">{~D:Record.Label~}</span>`
+			"Template": /*html*/`<span class="pict-fb-breadcrumb-segment" onclick="{~P~}.views['{~D:Record.ViewHash~}'].navigateToPath('{~D:Record.Path~}')">{~D:Record.Label~}</span>`
 		},
 		{
 			"Hash": "FileBrowser-Breadcrumb-Separator-Template",
@@ -140,8 +140,7 @@ class PictViewFileBrowserListDetail extends libPictView
 				SizeFormatted: tmpEntry.Type === 'folder' ? '--' : tmpListProvider.formatFileSize(tmpEntry.Size),
 				ModifiedFormatted: tmpListProvider.formatDate(tmpEntry.Modified),
 				SelectedClass: tmpIsSelected ? ' selected' : '',
-				ClickHandler: "pict.views['" + this.Hash + "'].selectEntry(" + i + ")",
-				DblClickHandler: "pict.views['" + this.Hash + "'].openEntry(" + i + ")"
+				ViewHash: this.Hash
 			};
 
 			tmpHTML += this.pict.parseTemplateByHash('FileBrowser-ListDetail-Row-Template', tmpRecord);
@@ -170,7 +169,8 @@ class PictViewFileBrowserListDetail extends libPictView
 			'FileBrowser-Breadcrumb-Segment-Template',
 			{
 				Label: tmpHomeLabel,
-				ClickHandler: "pict.views['" + this.Hash + "'].navigateToPath('')"
+				Path: '',
+				ViewHash: this.Hash
 			});
 
 		if (tmpCurrentLocation)
@@ -198,7 +198,8 @@ class PictViewFileBrowserListDetail extends libPictView
 						'FileBrowser-Breadcrumb-Segment-Template',
 						{
 							Label: tmpParts[i],
-							ClickHandler: "pict.views['" + this.Hash + "'].navigateToPath('" + tmpPath + "')"
+							Path: tmpPath,
+							ViewHash: this.Hash
 						});
 				}
 			}

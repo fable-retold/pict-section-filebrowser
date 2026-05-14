@@ -18,7 +18,7 @@ const _ViewConfiguration =
 	<input type="text" class="pict-fb-search-input"
 		id="Pict-FileBrowser-SearchInput"
 		placeholder="Search files..."
-		oninput="pict.views['{~D:Record.ViewHash~}'].onSearchInput(this.value)" />
+		oninput="{~P~}.views['{~D:Record.ViewHash~}'].onSearchInput(this.value)" />
 	<div class="pict-fb-search-results" id="Pict-FileBrowser-SearchResults"></div>
 </div>
 `
@@ -26,7 +26,7 @@ const _ViewConfiguration =
 		{
 			"Hash": "FileBrowser-BrowseSearch-Result-Template",
 			"Template": /*html*/`
-<div class="pict-fb-search-result" onclick="{~D:Record.ClickHandler~}">
+<div class="pict-fb-search-result" onclick="{~P~}.views['{~D:Record.ViewHash~}'].selectResult({~D:Record.Index~})">
 	<span class="pict-fb-search-result-icon">{~D:Record.Icon~}</span>
 	<span class="pict-fb-search-result-name">{~D:Record.Name~}</span>
 	<span class="pict-fb-search-result-path">{~D:Record.Path~}</span>
@@ -155,7 +155,8 @@ class PictViewFileBrowserBrowseSearch extends libPictView
 				Name: tmpEntry.Name,
 				Path: tmpPath,
 				Icon: tmpIcon,
-				ClickHandler: "pict.views['" + this.Hash + "'].selectResult(" + i + ")"
+				Index: i,
+				ViewHash: this.Hash
 			};
 
 			tmpHTML += this.pict.parseTemplateByHash('FileBrowser-BrowseSearch-Result-Template', tmpRecord);

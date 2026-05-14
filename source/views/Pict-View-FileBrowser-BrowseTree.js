@@ -18,8 +18,8 @@ const _ViewConfiguration =
 		{
 			"Hash": "FileBrowser-BrowseTree-Node-Template",
 			"Template": /*html*/`
-<div class="pict-fb-tree-node{~D:Record.SelectedClass~}" style="padding-left: {~D:Record.Indent~}px;" data-path="{~D:Record.Path~}" onclick="{~D:Record.ClickHandler~}">
-	<span class="{~D:Record.ToggleClass~}" onclick="{~D:Record.ToggleHandler~}">{~D:Record.ToggleIcon~}</span>
+<div class="pict-fb-tree-node{~D:Record.SelectedClass~}" style="padding-left: {~D:Record.Indent~}px;" data-path="{~D:Record.Path~}" onclick="{~P~}.views['{~D:Record.ViewHash~}'].selectFolder('{~D:Record.Path~}')">
+	<span class="{~D:Record.ToggleClass~}" onclick="event.stopPropagation(); {~P~}.views['{~D:Record.ViewHash~}'].toggleNode('{~D:Record.Path~}')">{~D:Record.ToggleIcon~}</span>
 	<span class="pict-fb-tree-icon">{~D:Record.Icon~}</span>
 	<span class="pict-fb-tree-label">{~D:Record.Name~}</span>
 </div>
@@ -154,8 +154,7 @@ class PictViewFileBrowserBrowseTree extends libPictView
 				Icon: tmpFolderIcon,
 				ToggleIcon: tmpToggleIcon,
 				ToggleClass: tmpHasChildren ? 'pict-fb-tree-toggle' : 'pict-fb-tree-toggle-empty',
-				ToggleHandler: tmpHasChildren ? "event.stopPropagation(); pict.views['" + this.Hash + "'].toggleNode('" + tmpPath + "')" : '',
-				ClickHandler: "pict.views['" + this.Hash + "'].selectFolder('" + tmpPath + "')",
+				ViewHash: this.Hash,
 				SelectedClass: tmpIsSelected ? ' selected' : '',
 				ExpandedClass: tmpIsExpanded ? ' expanded' : '',
 				ChildrenHTML: tmpChildrenHTML

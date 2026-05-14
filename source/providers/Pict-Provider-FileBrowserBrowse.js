@@ -159,16 +159,61 @@ class PictFileBrowserBrowseProvider extends libPictProvider
 		let tmpLocationAddress = tmpStateAddresses.CurrentLocation || 'AppData.PictFileBrowser.CurrentLocation';
 		let tmpFileAddress = tmpStateAddresses.CurrentFile || 'AppData.PictFileBrowser.CurrentFile';
 
+		let tmpNewPath = pPath || '';
 		this.pict.manifest.setValueByHash(
 			{ AppData: this.pict.AppData, Pict: this.pict },
 			tmpLocationAddress,
-			pPath || '');
+			tmpNewPath);
 
 		// Clear current file when navigating
 		this.pict.manifest.setValueByHash(
 			{ AppData: this.pict.AppData, Pict: this.pict },
 			tmpFileAddress,
 			null);
+
+		// Notify any host-registered listener that the user navigated
+		// to a new folder.  Hosts use this to refetch a directory
+		// listing from their backend without having to poll AppData
+		// for CurrentLocation changes.
+		this._fireFolderNavigatedListeners(tmpNewPath);
+	}
+
+	/**
+	 * Register a callback that fires whenever the current location
+	 * changes via `navigateToFolder()` (which is what folder clicks +
+	 * breadcrumb clicks call through to).  The callback receives the
+	 * new path string (empty string for the root).
+	 *
+	 * Returns an unsubscribe function for convenience.
+	 *
+	 * @param {Function} pCallback - (pPath) => void
+	 * @returns {Function} Unsubscribe handle.
+	 */
+	onFolderNavigated(pCallback)
+	{
+		if (typeof pCallback !== 'function') { return function () {}; }
+		if (!Array.isArray(this._folderNavigatedListeners))
+		{
+			this._folderNavigatedListeners = [];
+		}
+		this._folderNavigatedListeners.push(pCallback);
+		let tmpSelf = this;
+		return function unsubscribe()
+		{
+			if (!Array.isArray(tmpSelf._folderNavigatedListeners)) { return; }
+			let tmpIdx = tmpSelf._folderNavigatedListeners.indexOf(pCallback);
+			if (tmpIdx >= 0) { tmpSelf._folderNavigatedListeners.splice(tmpIdx, 1); }
+		};
+	}
+
+	_fireFolderNavigatedListeners(pPath)
+	{
+		if (!Array.isArray(this._folderNavigatedListeners) || this._folderNavigatedListeners.length === 0) { return; }
+		for (let i = 0; i < this._folderNavigatedListeners.length; i++)
+		{
+			try { this._folderNavigatedListeners[i](pPath); }
+			catch (e) { if (this.log) { this.log.warn('FileBrowser onFolderNavigated listener threw: ' + e.message); } }
+		}
 	}
 
 	/**

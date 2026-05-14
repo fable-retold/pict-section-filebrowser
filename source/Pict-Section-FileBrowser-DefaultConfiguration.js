@@ -170,6 +170,20 @@ module.exports = {
 			flex-shrink: 0;
 			color: var(--theme-color-text-muted, #8A7F72);
 			font-size: 10px;
+			cursor: pointer;
+		}
+		/* Empty toggle (folders with no children) — let clicks fall
+		   through to the parent .pict-fb-tree-node so the row's
+		   selectFolder handler runs.  Keeps the toggle template
+		   universal regardless of whether the node is expandable. */
+		.pict-fb-tree-toggle-empty {
+			display: inline-block;
+			width: 16px;
+			text-align: center;
+			flex-shrink: 0;
+			color: transparent;
+			font-size: 10px;
+			pointer-events: none;
 		}
 		.pict-fb-tree-icon {
 			margin-right: 6px;

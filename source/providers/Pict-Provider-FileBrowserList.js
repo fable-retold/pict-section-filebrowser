@@ -119,6 +119,51 @@ class PictFileBrowserListProvider extends libPictProvider
 			{ AppData: this.pict.AppData, Pict: this.pict },
 			tmpFileAddress,
 			pFileEntry || null);
+
+		// Notify any host-registered listener that a file was selected.
+		// Hosts use this to mount their own viewer (e.g. opening the
+		// file in a content pane) without having to subclass the
+		// provider or poll AppData.  Multiple registrations are
+		// supported — fired in registration order.
+		this._fireFileSelectedListeners(pFileEntry);
+	}
+
+	/**
+	 * Register a callback that fires whenever a file is selected via
+	 * `selectFile()` (which is what double-click + single-click on a
+	 * file entry call through to).  The callback receives the file
+	 * entry object, or null if selection was cleared.
+	 *
+	 * Returns an unsubscribe function for convenience.
+	 *
+	 * @param {Function} pCallback - (pFileEntry) => void
+	 * @returns {Function} Unsubscribe handle.
+	 */
+	onFileSelected(pCallback)
+	{
+		if (typeof pCallback !== 'function') { return function () {}; }
+		if (!Array.isArray(this._fileSelectedListeners))
+		{
+			this._fileSelectedListeners = [];
+		}
+		this._fileSelectedListeners.push(pCallback);
+		let tmpSelf = this;
+		return function unsubscribe()
+		{
+			if (!Array.isArray(tmpSelf._fileSelectedListeners)) { return; }
+			let tmpIdx = tmpSelf._fileSelectedListeners.indexOf(pCallback);
+			if (tmpIdx >= 0) { tmpSelf._fileSelectedListeners.splice(tmpIdx, 1); }
+		};
+	}
+
+	_fireFileSelectedListeners(pFileEntry)
+	{
+		if (!Array.isArray(this._fileSelectedListeners) || this._fileSelectedListeners.length === 0) { return; }
+		for (let i = 0; i < this._fileSelectedListeners.length; i++)
+		{
+			try { this._fileSelectedListeners[i](pFileEntry); }
+			catch (e) { if (this.log) { this.log.warn('FileBrowser onFileSelected listener threw: ' + e.message); } }
+		}
 	}
 
 	/**
