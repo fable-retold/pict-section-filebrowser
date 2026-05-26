@@ -1,7 +1,7 @@
 {
-	"Generated": "2026-05-22T05:44:52.592Z",
+	"Generated": "2026-05-26T18:22:28.356Z",
 	"Mode": "module",
-	"GitHubOrg": "stevenvelozo",
+	"GitHubOrg": "fable-retold",
 	"DefaultBranch": "master",
 	"Module": {
 		"Name": "pict-section-filebrowser",
@@ -59,8 +59,10 @@
 			".nojekyll",
 			"README.md",
 			"_brand.json",
+			"_cover.md",
 			"_sidebar.md",
 			"_topbar.md",
+			"_version.json",
 			"cover.md",
 			"index.html",
 			"retold-catalog.json",
