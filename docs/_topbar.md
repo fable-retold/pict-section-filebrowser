@@ -4,4 +4,4 @@
 - [Providers](Providers.md)
 - [Views](Views.md)
 - [REST API](REST_API.md)
-- [GitHub](https://github.com/stevenvelozo/pict-section-filebrowser)
+- [GitHub](https://github.com/fable-retold/pict-section-filebrowser)

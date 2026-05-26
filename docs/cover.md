@@ -7,5 +7,5 @@
 - Built-in REST API service and CLI utility for instant file serving
 - Hand-drawn SVG icon system with automatic file type detection
 
-[GitHub](https://github.com/stevenvelozo/pict-section-filebrowser)
+[GitHub](https://github.com/fable-retold/pict-section-filebrowser)
 [Get Started](#pict-section-filebrowser)

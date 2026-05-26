@@ -4,6 +4,6 @@
 
 - Read the full documentation for usage, configuration, and reference
 
-[GitHub](https://github.com/stevenvelozo/pict-section-filebrowser)
+[GitHub](https://github.com/fable-retold/pict-section-filebrowser)
 [Get Started](#pict-section-filebrowser)
 

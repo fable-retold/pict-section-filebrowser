@@ -1,6 +1,6 @@
 # Pict Section FileBrowser
 
-> **[&#9654; Read the Pict-Section-Filebrowser Documentation](https://stevenvelozo.github.io/pict-section-filebrowser/)** &mdash; interactive docs with the full API reference.
+> **[&#9654; Read the Pict-Section-Filebrowser Documentation](https://fable-retold.github.io/pict-section-filebrowser/)** &mdash; interactive docs with the full API reference.
 
 A composable file browser section for the Pict application platform.  Provides
 modular browsing, listing, and viewing views for building customizable file
@@ -98,11 +98,11 @@ npm test
 
 ## Related Packages
 
-- [pict](https://github.com/stevenvelozo/pict) - Core application framework
-- [pict-view](https://github.com/stevenvelozo/pict-view) - View base class
-- [pict-provider](https://github.com/stevenvelozo/pict-provider) - Provider base class
-- [orator](https://github.com/stevenvelozo/orator) - API server framework
-- [fable](https://github.com/stevenvelozo/fable) - Service infrastructure
+- [pict](https://github.com/fable-retold/pict) - Core application framework
+- [pict-view](https://github.com/fable-retold/pict-view) - View base class
+- [pict-provider](https://github.com/fable-retold/pict-provider) - Provider base class
+- [orator](https://github.com/fable-retold/orator) - API server framework
+- [fable](https://github.com/fable-retold/fable) - Service infrastructure
 
 ## License
 

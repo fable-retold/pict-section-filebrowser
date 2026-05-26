@@ -15,14 +15,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/stevenvelozo/pict-section-filebrowser.git"
+		"url": "git+https://github.com/fable-retold/pict-section-filebrowser.git"
 	},
 	"author": "steven velozo <steven@velozo.com>",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/stevenvelozo/pict-section-filebrowser/issues"
+		"url": "https://github.com/fable-retold/pict-section-filebrowser/issues"
 	},
-	"homepage": "https://github.com/stevenvelozo/pict-section-filebrowser#readme",
+	"homepage": "https://github.com/fable-retold/pict-section-filebrowser#readme",
 	"dependencies": {
 		"fable": "^3.1.72",
 		"fable-serviceproviderbase": "^3.0.19",
