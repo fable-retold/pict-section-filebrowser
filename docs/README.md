@@ -103,8 +103,8 @@ The main entry point exports the container view as the default, plus all sub-com
 
 ## Related Packages
 
-- [pict](https://github.com/fable-retold/pict) - Core application framework
-- [pict-view](https://github.com/fable-retold/pict-view) - View base class
-- [pict-provider](https://github.com/fable-retold/pict-provider) - Provider base class
-- [orator](https://github.com/fable-retold/orator) - API server framework
-- [fable](https://github.com/fable-retold/fable) - Service infrastructure
+- [pict](https://fable-retold.github.io/pict/) - Core application framework
+- [pict-view](https://fable-retold.github.io/pict-view/) - View base class
+- [pict-provider](https://fable-retold.github.io/pict-provider/) - Provider base class
+- [orator](https://fable-retold.github.io/orator/) - API server framework
+- [fable](https://fable-retold.github.io/fable/) - Service infrastructure
