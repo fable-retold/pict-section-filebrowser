@@ -1,6 +1,6 @@
 # Pict Section FileBrowser
 
-> **[&#9654; Read the Pict-Section-Filebrowser Documentation](https://fable-retold.github.io/pict-section-filebrowser/)** &mdash; interactive docs with the full API reference.
+> **[Read the Pict-Section-Filebrowser Documentation](https://fable-retold.github.io/pict-section-filebrowser/)** - interactive docs with the full API reference.
 
 A composable file browser section for the Pict application platform.  Provides
 modular browsing, listing, and viewing views for building customizable file
